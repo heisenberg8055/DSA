@@ -1,11 +1,19 @@
 class Solution {
 public:
     int buyChoco(vector<int>& prices, int money) {
-        sort(prices.begin(),prices.end());
-        if(prices[0] + prices[1]<= money)
+        int x = INT_MAX, y = INT_MAX;
+        for(auto &it:prices)
         {
-            return money - (prices[0]+prices[1]);
+            if(x>it)
+            {
+                y = x;
+                x = it;
+            }
+            else if(y>it)
+            {
+                y = it;
+            }
         }
-        return money;
+        return x+y<=money? money - (x+y): money;
     }
 };
