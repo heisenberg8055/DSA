@@ -1,17 +1,6 @@
 class Solution {
 public:
-    int distanceTraveled(int mainTank, int additionalTank) {
-        int ans = 0;
-        while(mainTank)
-        {
-            ans++;
-            mainTank--;
-            if(ans > 0 && ans % 5 == 0 && additionalTank)
-            {
-                mainTank++;
-                additionalTank--;
-            }
-        }
-        return ans * 10;
+    int distanceTraveled(int a, int b) {
+        return (a + min((a - 1) / 4, b)) * 10;
     }
 };
