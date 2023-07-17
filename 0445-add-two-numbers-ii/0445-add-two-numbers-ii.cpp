@@ -10,48 +10,58 @@
  */
 class Solution {
 private:
-    ListNode* reverse(ListNode* root)
+    ListNode* rev(ListNode* head)
     {
         ListNode* prev = NULL, *next = NULL;
-        while(root)
+        while(head)
         {
-            next = root->next;
-            root->next = prev;
-            prev = root;
-            root = next;
+            next = head->next;
+            head->next = prev; 
+            prev = head;
+            head = next;
         }
         return prev;
     }
 public:
     ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
-        l1 = reverse(l1);
-        l2 = reverse(l2);
-        int car = 0;
+        stack<int>s1,s2;
         ListNode* ans = new ListNode(1);
         ListNode* temp = ans;
-        while(l1 || l2)
+        ListNode* l11 = l1, *l22 = l2;
+        while(l11)
         {
-            int v1 = 0,v2 = 0;
-            if(l1)
+            s1.push(l11->val);
+            l11 = l11 ->next;
+        }
+        while(l22)
+        {
+            s2.push(l22->val);
+            l22 = l22 ->next;
+        }
+        int car = 0;
+        while(s1.size() || s2.size())
+        {
+            int val1 = 0, val2 = 0;
+            if(s1.empty() == false)
             {
-                v1 = l1->val;
-                l1 = l1->next;
+                val1 = s1.top();
+                s1.pop();
             }
-            if(l2)
+            if(s2.empty() == false)
             {
-                v2 = l2->val;
-                l2 = l2->next;
+                val2 = s2.top();
+                s2.pop();
             }
-            int total = v1 + v2 + car;
+            int total = val1 + val2 + car;
             car = total / 10;
             total = total % 10;
-            temp->next = new ListNode(total);
-            temp = temp->next;
+            temp->next  = new ListNode(total);
+            temp = temp ->next;
         }
         if(car)
         {
             temp->next = new ListNode(1);
         }
-        return reverse(ans->next);
+        return rev(ans->next);
     }
 };
