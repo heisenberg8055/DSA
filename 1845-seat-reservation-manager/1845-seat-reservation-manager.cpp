@@ -1,17 +1,19 @@
 class SeatManager {
 public:
     set<int>s;
+    int marker = 1;
     SeatManager(int n) {
-        for(int i = 0 ; i < n; i++)
-        {
-            s.insert(i+1);
-        }
     }
     
     int reserve() {
-        auto it = s.begin();
-        int ans = *it;
-        s.erase(it);
+        if(!s.empty())
+        {
+            auto ans = s.begin();
+            int ret = *ans;
+            s.erase(ans);
+            return ret;
+        }
+        int ans = marker++;
         return ans;
     }
     
