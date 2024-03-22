@@ -11,12 +11,32 @@
 class Solution {
 public:
     bool isPalindrome(ListNode* head) {
-        string ans = "";
-        while(head)
+        ListNode* s = head, *f = head;
+        while(f && f -> next)
         {
-            ans += head->val;
-            head = head->next;
+            s = s -> next;
+            f = f -> next -> next;
         }
-        return equal(ans.begin(), ans.begin() + ans.size()/2, ans.rbegin());
+        ListNode* prev = s,*next;
+        s = s -> next;
+        prev -> next = nullptr;
+        while(s)
+        {
+            next = s -> next;
+            s -> next = prev;
+            prev = s;
+            s = next;
+        }
+        f = head;
+        while(prev != nullptr)
+        {
+            if(f -> val != prev -> val)
+            {
+                return false;
+            }
+            prev = prev -> next;
+            f = f -> next;
+        }
+        return true;
     }
 };
