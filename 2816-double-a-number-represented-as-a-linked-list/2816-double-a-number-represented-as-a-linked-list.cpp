@@ -9,34 +9,22 @@
  * };
  */
 class Solution {
-private:
-    ListNode* rev(ListNode* head)
-    {
-        ListNode* curr = head;
-        ListNode* prev = nullptr;
-        ListNode* next = nullptr;
-        while(curr)
-        {
-            next = curr -> next;
-            curr -> next = prev;
-            prev = curr;
-            curr = next;
-        }
-        return prev;
-    }
 public:
     ListNode* doubleIt(ListNode* head) {
-        ListNode* temp = rev(head);
-        ListNode* reff = temp;
-        int c = 0;
+        if(head -> val > 4)
+        {
+            head = new ListNode(0, head);
+        }
+        ListNode* temp = head;
         while(temp)
         {
-            int val = temp -> val * 2;
-            val += c;
-            temp -> val = val % 10;
-            c = val / 10;
-            temp  = temp -> next;
+            temp -> val = (temp -> val * 2) % 10;
+            if(temp -> next && temp -> next -> val > 4)
+            {
+                temp -> val += 1;
+            }
+            temp = temp -> next;
         }
-        return c ? new ListNode(c, rev(reff)) : rev(reff);
+        return head;
     }
 };
