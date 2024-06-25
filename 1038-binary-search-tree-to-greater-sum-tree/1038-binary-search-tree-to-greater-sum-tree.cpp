@@ -10,7 +10,7 @@
  * };
  */
 class Solution {
-int s = 0;
+int ans = 0;
 private:
     void help(TreeNode* root)
     {
@@ -18,34 +18,14 @@ private:
         {
             return;
         }
-        help(root -> left);
-        int temp = root -> val;
-        root -> val = s;
-        s -= temp;
         help(root -> right);
+        int temp = root -> val;
+        root -> val += ans;
+        ans += temp;
+        help(root -> left);
     }
 public:
     TreeNode* bstToGst(TreeNode* root) {
-        queue<TreeNode*>q;
-        q.push(root);
-        while(!q.empty())
-        {
-            int n = q.size();
-            for(int i = 0; i < n; i++)
-            {
-                auto it = q.front();
-                q.pop();
-                s += it -> val;
-                if(it -> left)
-                {
-                    q.push(it -> left);
-                }
-                if(it -> right)
-                {
-                    q.push(it -> right);
-                }
-            }
-        }
         help(root);
         return root;
     }
