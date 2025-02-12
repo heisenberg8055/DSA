@@ -24,7 +24,6 @@ Dynamic Programming is a commonly used algorithmic technique used to optimize re
     - We only use recursive formula on table entries and do not make recursive calls.
 
 # Problems
-````md
 <details>
     <summary> [70. Climbing Stairs](https://leetcode.com/problems/climbing-stairs/description/?envType=problem-list-v2&envId=dynamic-programming) </summary>
     - #### Recursion
@@ -103,4 +102,3 @@ Dynamic Programming is a commonly used algorithmic technique used to optimize re
         };
         ```
 </details>
-````
