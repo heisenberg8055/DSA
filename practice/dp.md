@@ -23,11 +23,14 @@ Dynamic Programming is a commonly used algorithmic technique used to optimize re
     - We use a dp table where we first fill the solution for base cases and then fill the remaining entries of the table using recursive formula.
     - We only use recursive formula on table entries and do not make recursive calls.
 
-# Problems
-<details>
-    <summary> [70. Climbing Stairs]</summary>
-    
-    #### Recursion
+## Problems
+- <details>
+    <summary><a href="https://leetcode.com/problems/climbing-stairs/description/">Climbing Stairs</a></summary>
+
+
+    - <details>
+            <summary>Recursion</summary>
+
         ```cpp
         class Solution {
         private:
@@ -50,7 +53,11 @@ Dynamic Programming is a commonly used algorithmic technique used to optimize re
             }
         };
         ```
-    - #### Top up (Memoization)
+        </details>
+
+    - <details>
+            <summary>Top down (Memoization)</summary>
+
         ```cpp
         class Solution {
         private:
@@ -70,7 +77,12 @@ Dynamic Programming is a commonly used algorithmic technique used to optimize re
             }
         };
         ```
-    - #### Bottom up (Tabulation)
+        </details>
+
+    - <details>
+            <summary>Bottom up (Tabulation)</summary>
+            
+            
         ```cpp
         class Solution {
         public:
@@ -84,7 +96,11 @@ Dynamic Programming is a commonly used algorithmic technique used to optimize re
             }
         };
         ```
-    - #### Space Optimization
+
+        </details>
+    - <details>
+            <summary>Space Optimization</summary>
+
         ```cpp
         class Solution {
         public:
@@ -102,4 +118,6 @@ Dynamic Programming is a commonly used algorithmic technique used to optimize re
             }
         };
         ```
+
+        </details>
 </details>
