@@ -25,9 +25,9 @@ Dynamic Programming is a commonly used algorithmic technique used to optimize re
 
 # Problems
 <details>
-    <summary> [70. Climbing Stairs](https://leetcode.com/problems/climbing-stairs/description/?envType=problem-list-v2&envId=dynamic-programming) </summary>
-    ````md
-    - #### Recursion
+    <summary> [70. Climbing Stairs]</summary>
+    
+    #### Recursion
         ```cpp
         class Solution {
         private:
@@ -102,5 +102,4 @@ Dynamic Programming is a commonly used algorithmic technique used to optimize re
             }
         };
         ```
-    ````
 </details>
