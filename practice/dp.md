@@ -121,3 +121,29 @@ Dynamic Programming is a commonly used algorithmic technique used to optimize re
 
         </details>
 </details>
+
+- <details>
+    <summary><a href="https://leetcode.com/problems/pascals-triangle/description/">Pascal's Triangle (Combinatorial Formula)</a></summary>
+
+    \
+    Combinatorial formula C(n, k) = C(n-1, k-1) + C(n-1, k)
+    ```cpp
+    class Solution {
+    public:
+        vector<vector<int>> generate(int numRows) {
+            vector<vector<int>>ans;
+            for(int i = 1; i <= numRows; i++) {
+                vector<int>temp(i, 1);
+                if (i != 1 && i != 2) {
+                    for(int j = 1; j < i - 1; j++)
+                    {
+                        temp[j] = ans[i - 2][j - 1] + ans[i - 2][j];
+                    }
+                }
+                ans.push_back(temp);
+            }
+            return ans;
+        }
+    };
+    ```
+</details>
