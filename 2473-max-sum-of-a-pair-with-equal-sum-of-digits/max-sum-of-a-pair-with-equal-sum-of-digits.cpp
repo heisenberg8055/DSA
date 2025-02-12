@@ -1,26 +1,18 @@
 class Solution {
-private:
-    int getNumberSum(int n){
-        int ans = 0;
-        while(n) {
-            int temp = n % 10;
-            ans += temp;
-            n /= 10;
-        }
-        return ans;
-    }
 public:
     int maximumSum(vector<int>& nums) {
-        int ans = -1;
-        unordered_map<int, priority_queue<int>>mp;
-        int n = nums.size();
-        for(int i = 0; i < n; i++)
-        {
-            int sum = getNumberSum(nums[i]);
-            if (mp.find(sum) != mp.end()) {
-                ans = max(ans, mp[sum].top() + nums[i]);
+        int ans = -1, mp[82] = {};
+        for(int n: nums) {
+            int sum = 0, reff = n;
+            while(reff) {
+                int temp = reff % 10;
+                sum += temp;
+                reff /= 10;
             }
-            mp[sum].push(nums[i]);
+            if (mp[sum]) {
+                ans = max(ans, mp[sum] + n);
+            }
+            mp[sum] = max(mp[sum], n);
         }
         return ans;
     }
