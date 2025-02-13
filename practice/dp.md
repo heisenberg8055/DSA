@@ -25,7 +25,7 @@ Dynamic Programming is a commonly used algorithmic technique used to optimize re
 
 ## Problems
 - <details>
-    <summary><a href="https://leetcode.com/problems/climbing-stairs/description/">Climbing Stairs</a></summary>
+    <summary><a href="https://leetcode.com/problems/climbing-stairs/description/">70. Climbing Stairs</a></summary>
 
 
     - <details>
@@ -123,7 +123,7 @@ Dynamic Programming is a commonly used algorithmic technique used to optimize re
 </details>
 
 - <details>
-    <summary><a href="https://leetcode.com/problems/pascals-triangle/description/">Pascal's Triangle (Combinatorial Formula)</a></summary>
+    <summary><a href="https://leetcode.com/problems/pascals-triangle/description/">118. Pascal's Triangle (Combinatorial Formula)</a></summary>
 
     \
     Combinatorial formula C(n, k) = C(n-1, k-1) + C(n-1, k)
@@ -141,6 +141,53 @@ Dynamic Programming is a commonly used algorithmic technique used to optimize re
                     }
                 }
                 ans.push_back(temp);
+            }
+            return ans;
+        }
+    };
+    ```
+</details>
+
+- <details>
+    <summary><a href="https://leetcode.com/problems/pascals-triangle-ii/description/">119. Pascal's Triangle II(Combinatorial Formula)</a></summary>
+
+    \
+    Combinatorial formula C(n, k) = C(n-1, k-1) + C(n-1, k)
+    ```cpp
+    class Solution {
+    public:
+        vector<int> getRow(int rowIndex) {
+            vector<int>ans(1, 1);
+            if (rowIndex == 0) {
+                return ans;
+            }
+            for(int i = 1; i <= rowIndex; i++) {
+                vector<int>reff(i + 1, 1);
+                for(int j = 1; j < i; j++) {
+                    reff[j] = ans[j - 1] + ans[j];
+                }
+                ans = reff;
+            }
+            return ans;
+        }
+    };
+    ```
+</details>
+
+- <details>
+    <summary><a href="https://leetcode.com/problems/best-time-to-buy-and-sell-stock/">121. Best time to buy and sell stocks</a></summary>
+
+    \
+    ```cpp
+    class Solution {
+    public:
+        int maxProfit(vector<int>& prices) {
+            int n = prices.size();
+            int ans = 0;
+            int maxi = prices[n - 1];
+            for(int i = n - 2; i >= 0; i--) {
+                ans = max(ans, maxi - prices[i]);
+                maxi = max(prices[i], maxi);
             }
             return ans;
         }
