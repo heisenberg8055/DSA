@@ -1,9 +1,8 @@
-# Kadane Algorithm
+# [Kadane Algorithm](https://www.geeksforgeeks.org/largest-sum-contiguous-subarray/)
 
 ## Statement
 
 1. Given an array arr[], the task is to find the subarray that has the maximum sum and return its sum.
-
 
 ```c++
 Input: arr[] = {2, 3, -8, 7, -1, 2, 3}
@@ -20,4 +19,3 @@ Input: arr[] = {5, 4, 1, 7, 8}
 Output: 25
 Explanation: The subarray {5, 4, 1, 7, 8} has the largest sum 25.
 ```
-

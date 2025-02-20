@@ -177,7 +177,7 @@ Dynamic Programming is a commonly used algorithmic technique used to optimize re
 - <details>
     <summary><a href="https://leetcode.com/problems/best-time-to-buy-and-sell-stock/">121. Best time to buy and sell stocks</a></summary>
 
-    \
+    
     ```cpp
     class Solution {
     public:
@@ -193,4 +193,399 @@ Dynamic Programming is a commonly used algorithmic technique used to optimize re
         }
     };
     ```
+</details>
+
+- <details>
+    <summary><a href="https://leetcode.com/problems/counting-bits/">338. Counting Bits</a></summary>
+
+    ```cpp
+    class Solution {
+    public:
+        vector<int> countBits(int n) {
+            vector<int>ans(n + 1, 0);
+            for(int i = 1; i <= n; i++) {
+                ans[i] = ans[i >> 1] + (i & 1);
+            }
+            return ans;
+        }
+    };
+    ```
+</details>
+
+- <details>
+    <summary><a href="https://leetcode.com/problems/is-subsequence/description/">392. Is Subsequence</a></summary>
+
+    - <details>
+        <summary>Two Pointer</summary>
+
+        ```cpp
+        class Solution {
+        public:
+            bool isSubsequence(string s, string t) {
+                int n = s.size(), m = t.size();
+                if(n > m) {
+                    return false;
+                }
+                int i = 0, j = 0;
+                while(i < n && j < m) {
+                    while(j < m && t[j] != s[i]) {
+                        j++;
+                    }
+                    if(t[j] == s[i]){
+
+                    
+                    i++;
+                    j++;
+                    } else{
+                        break;
+                    }
+                }
+                return i == n;
+            }
+        };
+        ```
+        </details>
+
+    - <details>
+        <summary>Memoization</summary>
+
+        ```cpp
+        class Solution {
+            private:
+                int isLCS(string s, string t, int i, int j, vector<vector<int>> &dp) {
+                    if (i == 0 || j == 0) {
+                        return 0;
+                    }
+                    if (dp[i][j] != -1) {
+                        return dp[i][j];
+                    }
+                    if (s[i - 1] == t[j - 1]) {
+                        return dp[i][j] = 1 + isLCS(s, t, i - 1, j - 1, dp);
+                    }
+                    return dp[i][j] = isLCS(s, t, i, j - 1, dp);
+                }
+            public:
+                bool isSubsequence(string s, string t) {
+                    int n = s.size();
+                    int m = t.size();
+                    if (n > m) {
+                        return false;
+                    }
+                    vector<vector<int>>dp(n + 1, vector<int>(m + 1, -1));
+                    return isLCS(s, t, n, m, dp) == n;
+                }
+            };
+        ```
+        </details>
+
+</details>
+
+- <details>
+    <summary><a href="https://leetcode.com/problems/min-cost-climbing-stairs/">746. Min Cost Climbing Stairs</a></summary>
+
+    - <details>
+        <summary>Recursion</summary>
+
+        ```cpp
+        class Solution {
+        private:
+            int help(int i, int n, vector<int>& cost) {
+                if (i > n - 1) {
+                    return 0;
+                }
+                return cost[i] + min(help(i + 1, n, cost), help(i + 2, n, cost));
+            }
+        public:
+            int minCostClimbingStairs(vector<int>& cost) {
+                int n = cost.size();
+                return min(help(0, n, cost), help(1, n, cost));
+            }
+        };
+        ```
+        </details>
+
+    - <details>
+        <summary>Memoization</summary>
+
+        ```cpp
+        class Solution {
+        private:
+            int help(int i, int n, vector<int>& cost, vector<int>& dp) {
+                if (i > n - 1) {
+                    return 0;
+                }
+                if (dp[i] != -1) {
+                    return dp[i];
+                }
+                return dp[i] = cost[i] + min(help(i + 1, n, cost, dp), help(i + 2, n, cost, dp));
+            }
+        public:
+            int minCostClimbingStairs(vector<int>& cost) {
+                int n = cost.size();
+                vector<int>dp(n, -1);
+                return min(help(0, n, cost, dp), help(1, n, cost, dp));
+            }
+        };
+        ```
+        </details>
+
+    - <details>
+        <summary>Tabulation</summary>
+
+        ```cpp
+        class Solution {
+        public:
+            int minCostClimbingStairs(vector<int>& cost) {
+                int n = cost.size();
+                vector<int>dp(n + 2, 0);
+                for(int i = n - 1; i >= 0; i--) {
+                    dp[i] = cost[i] + min(dp[i + 1], dp[i +2]);
+                }
+                return min(dp[0], dp[1]);
+            }
+        };
+        ```
+        </details>
+
+    - <details>
+        <summary>Space Optimization</summary>
+
+        ```cpp
+        class Solution {
+        public:
+            int minCostClimbingStairs(vector<int>& cost) {
+                int n = cost.size();
+                int first = cost[0];
+                int second = cost[1];
+                if (n <= 2) {
+                    return min(first, second);
+                }
+                for(int i = 2; i < n; i++) {
+                    int curr = cost[i] + min(first, second);
+                    first = second;
+                    second = curr;
+                }
+                return min(first, second);
+            }
+        };
+        ```
+        </details>
+
+</details>
+
+- <details>
+    <summary><a href="https://leetcode.com/problems/fibonacci-number/description/">509. Fibonacci Number</a></summary>
+
+    - <details>
+        <summary>Recursion</summary>
+
+        ```cpp
+        class Solution {
+        public:
+            int fib(int n) {
+                if (n < 2) {
+                    return n;
+                }
+                return fib(n - 1) + fib(n - 2);
+            }
+        };
+        ```
+        </details>
+
+    - <details>
+        <summary>Memoization</summary>
+
+        ```cpp
+        class Solution {
+            vector<int>dp;
+        private:
+            int help(int n) {
+                if (n < 2) {
+                    return n;
+                }
+                if (dp[n] != -1) {
+                    return dp[n];
+                }
+                return dp[n] = fib(n - 1) + fib(n - 2);
+            }
+        public:
+            int fib(int n) {
+                dp.resize(n + 1, -1);
+                return help(n);
+            }
+        };
+        ```
+        </details>
+
+    - <details>
+        <summary>Tabulation</summary>
+
+        ```cpp
+        class Solution {
+        public:
+            int fib(int n) {
+                if (n < 2) {
+                    return n;
+                }
+                vector<int>dp(n + 1, -1);
+                dp[0] = 0;
+                dp[1] = 1;
+                for(int i = 2; i <= n; i++) {
+                    dp[i] = dp[i - 1] + dp[i - 2];
+                }
+                return dp[n];
+            }
+        };
+        ```
+        </details>
+
+    - <details>
+        <summary>Space Optimization</summary>
+
+        ```cpp
+        class Solution {
+        public:
+            int fib(int n) {
+                if (n < 2) {
+                    return n;
+                }
+                int ne = 1, nn = 0, ans = 0;
+                for(int i = 2; i <= n; i++) {
+                    ans = ne + nn;
+                    nn = ne;
+                    ne = ans;
+                }
+                return ans;
+            }
+        };
+        ```
+        </details>
+
+</details>
+
+
+- <details>
+    <summary><a href="https://leetcode.com/problems/divisor-game">1025. Divisor Game</a></summary>
+
+    ```c++
+        class Solution {
+        public:
+            bool divisorGame(int n) {
+                return !(n & 1);
+            }
+        };
+    ```
+</details>
+
+- <details>
+    <summary><a href="https://leetcode.com/problems/longest-unequal-adjacent-groups-subsequence-i/description/">2900. Longest Unequal Adjacent Groups Subsequence I</a></summary>
+
+    ```cpp
+        class Solution {
+        public:
+            vector<string> getLongestSubsequence(vector<string>& words, vector<int>& groups) {
+                int n = words.size();
+                vector<string>ans;
+                int comp = !groups[0];
+                for(int i = 0; i < n; i++) {
+                    if(comp != groups[i]) {
+                        ans.push_back(words[i]);
+                        comp = !comp;
+                    }
+                }
+                return ans;
+            }
+        };
+    ```
+</details>
+
+- <details>
+    <summary><a href="https://leetcode.com/problems/n-th-tribonacci-number">1137. N-th Tribonacci Number</a></summary>
+
+    ```c++
+        class Solution {
+        private:
+            int help(int n, vector<int>& dp) {
+                if (n < 2) {
+                    return n;
+                } else if (n == 2) {
+                    return 1;
+                } else if (dp[n] != -1) {
+                    return dp[n];
+                }
+                return dp[n] = help(n - 1, dp) + help(n - 2, dp) + help(n - 3, dp);
+            }
+        public:
+            int tribonacci(int n) {
+                vector<int>dp(n + 1, -1);
+                return help(n, dp);
+            }
+        };
+    ```
+</details>
+
+- <details>
+    <summary><a href="https://leetcode.com/problems/maximum-repeating-substring/description">1668. Maximum Repeating Substring</a></summary>
+
+    ```c++
+        class Solution {
+        private:
+            int help(int n, vector<int>& dp) {
+                if (n < 2) {
+                    return n;
+                } else if (n == 2) {
+                    return 1;
+                } else if (dp[n] != -1) {
+                    return dp[n];
+                }
+                return dp[n] = help(n - 1, dp) + help(n - 2, dp) + help(n - 3, dp);
+            }
+        public:
+            int tribonacci(int n) {
+                vector<int>dp(n + 1, -1);
+                return help(n, dp);
+            }
+        };
+    ```
+</details>
+
+- <details>
+    <summary><a href="https://leetcode.com/problems/maximum-repeating-substring">1668. Maximum Repeating Substring</a></summary>
+
+    - <details>
+        <summary>Brute Force</summary>
+
+        ```cpp
+        class Solution {
+        private:
+            bool chk(int i, string word, string s) {
+                string temp = "";
+                while(i--) {
+                    temp += word;
+                }
+                if(temp.size() > s.size()) {
+                    return false;
+                }
+                for(int i = 0; i < s.size() - temp.length() + 1; i++) {
+                    if(temp == s.substr(i, temp.length())) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+        public:
+            int maxRepeating(string s, string word) {
+                int ans  = 0;
+                int m = s.size(), n = word.size();
+                if (n > m) {
+                    return ans;
+                }
+                while(chk(ans + 1, word, s)) {
+                    ans++;
+                }
+                return ans;
+            }
+        };
+        ```
+    </details>
 </details>
