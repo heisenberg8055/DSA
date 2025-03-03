@@ -1,32 +1,26 @@
 class Solution {
 public:
-    vector<int> pivotArray(vector<int>& nums, int p) {
+    vector<int> pivotArray(vector<int>& nums, int pivot) {
         int n = nums.size();
-        int cnt = 0;
-        deque<int>l;
-        deque<int>g;
+        vector<int>ans(n);
+        int low = 0, same = 0;
         for(int i = 0; i < n; i++) {
-            if(nums[i] < p) {
-                l.push_back(i);
-            } else if (nums[i] == p){
-                cnt++;
-            } else {
-                g.push_back(i);
+            if (nums[i] < pivot) {
+                low++;
+            } else if (nums[i] == pivot) {
+                same++;
             }
         }
-        vector<int>ans(n);
+        int high = low + same;
+        same = low;
+        low = 0;
         for(int i = 0; i < n; i++) {
-            if (l.empty() == false) {
-                auto it = l.front();
-                l.pop_front();
-                ans[i] = nums[it];
-            } else if (cnt) {
-                cnt--;
-                ans[i] = p;
+            if (nums[i] < pivot) {
+                ans[low++] = nums[i];
+            } else if (nums[i] == pivot) {
+                ans[same++] = nums[i];
             } else {
-                auto it = g.front();
-                g.pop_front();
-                ans[i] = nums[it];
+                ans[high++] = nums[i];
             }
         }
         return ans;
