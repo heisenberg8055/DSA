@@ -525,31 +525,6 @@ Dynamic Programming is a commonly used algorithmic technique used to optimize re
 </details>
 
 - <details>
-    <summary><a href="https://leetcode.com/problems/maximum-repeating-substring/description">1668. Maximum Repeating Substring</a></summary>
-
-    ```c++
-        class Solution {
-        private:
-            int help(int n, vector<int>& dp) {
-                if (n < 2) {
-                    return n;
-                } else if (n == 2) {
-                    return 1;
-                } else if (dp[n] != -1) {
-                    return dp[n];
-                }
-                return dp[n] = help(n - 1, dp) + help(n - 2, dp) + help(n - 3, dp);
-            }
-        public:
-            int tribonacci(int n) {
-                vector<int>dp(n + 1, -1);
-                return help(n, dp);
-            }
-        };
-    ```
-</details>
-
-- <details>
     <summary><a href="https://leetcode.com/problems/maximum-repeating-substring">1668. Maximum Repeating Substring</a></summary>
 
     - <details>
