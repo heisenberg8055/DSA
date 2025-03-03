@@ -3,25 +3,17 @@ public:
     vector<int> pivotArray(vector<int>& nums, int pivot) {
         int n = nums.size();
         vector<int>ans(n);
-        int low = 0, same = 0;
-        for(int i = 0; i < n; i++) {
-            if (nums[i] < pivot) {
-                low++;
-            } else if (nums[i] == pivot) {
-                same++;
+        int lessI = 0, greatI = n - 1;
+        for(int i = 0, j = n - 1; i < n; i++, j--) {
+            if(nums[i] < pivot) {
+                ans[lessI++] = nums[i];
+            }
+            if (nums[j] > pivot) {
+                ans[greatI--] = nums[j];
             }
         }
-        int high = low + same;
-        same = low;
-        low = 0;
-        for(int i = 0; i < n; i++) {
-            if (nums[i] < pivot) {
-                ans[low++] = nums[i];
-            } else if (nums[i] == pivot) {
-                ans[same++] = nums[i];
-            } else {
-                ans[high++] = nums[i];
-            }
+        while(lessI <= greatI) {
+            ans[lessI++] = pivot;
         }
         return ans;
     }
