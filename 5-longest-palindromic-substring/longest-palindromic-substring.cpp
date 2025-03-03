@@ -1,29 +1,27 @@
 class Solution {
+private:
+    string expand(int i, int j, string s) {
+        int left = i, right = j;
+        while(left >= 0 && right < s.size() && s[left] == s[right]) {
+            left--;
+            right++;
+        }
+        return s.substr(left + 1, right - left - 1);
+    }
 public:
     string longestPalindrome(string s) {
+        string ans = "";
         int n = s.size();
-        array<int, 2> ans = {0, 0};
-        vector<vector<bool>> dp(n, vector<bool>(n));
         for(int i = 0; i < n; i++) {
-            dp[i][i] = true;
-        }
-        for(int i = 0; i < n - 1; i++) {
-            if (s[i] == s[i + 1]) {
-                dp[i][i + 1] = true;
-                ans = {i, i + 1};
+            string odd = expand(i, i, s);
+            if(odd.size() > ans.size()) {
+                ans = odd;
+            }
+            string even = expand(i, i + 1, s);
+            if(even.size() > ans.size()) {
+                ans = even;
             }
         }
-        for(int diff = 2; diff < n; diff++) {
-            for(int i = 0; i < n - diff; i++) {
-                int j = i + diff;
-                if(s[i] == s[j] && dp[i + 1][j - 1]) {
-                    dp[i][j] = true;
-                    ans = {i, j};
-                }
-            }
-        }
-        int i = ans[0];
-        int j = ans[1];
-        return s.substr(i, j - i + 1);
+        return ans;
     }
 };
