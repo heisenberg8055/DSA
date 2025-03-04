@@ -6,11 +6,11 @@ private:
         } else if ( curr > n) {
             return false;
         }
-        if (i >= nums.size()) {
+        if (i < 0) {
             return curr == n;
         }
-        bool p = help(i + 1, curr + nums[i], n, nums);
-        bool nP = help(i + 1, curr, n, nums);
+        bool p = help(i - 1, curr + nums[i], n, nums);
+        bool nP = help(i - 1, curr, n, nums);
         return nP || p;
     }
 public:
@@ -21,6 +21,6 @@ public:
             nums.push_back(pow(3, reff));
             reff++;
         }
-        return help(0, 0, n, nums);
+        return help(nums.size() - 1, 0, n, nums);
     }
 };
