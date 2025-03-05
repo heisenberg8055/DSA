@@ -677,3 +677,298 @@ Dynamic Programming is a commonly used algorithmic technique used to optimize re
     </details>
 
 </details>
+
+- <details>
+    <summary><a href="https://leetcode.com/problems/maximum-number-of-points-with-cost/">1937. Maximum Number of Points with Cost</a></summary>
+    
+    - <details>
+        <summary>Tabulation</summary>
+
+        ```cpp
+        class Solution {
+        public:
+            long long maxPoints(vector<vector<int>>& points) {
+                int rows = points.size(), cols = points[0].size();
+                vector<long long> previousRow(cols);
+
+                // Initialize the first row
+                for (int col = 0; col < cols; ++col) {
+                    previousRow[col] = points[0][col];
+                }
+
+                // Process each row
+                for (int row = 0; row < rows - 1; ++row) {
+                    vector<long long> leftMax(cols);
+                    vector<long long> rightMax(cols);
+                    vector<long long> currentRow(cols);
+
+                    // Calculate left-to-right maximum
+                    leftMax[0] = previousRow[0];
+                    for (int col = 1; col < cols; ++col) {
+                        leftMax[col] = max(leftMax[col - 1] - 1, previousRow[col]);
+                    }
+
+                    // Calculate right-to-left maximum
+                    rightMax[cols - 1] = previousRow[cols - 1];
+                    for (int col = cols - 2; col >= 0; --col) {
+                        rightMax[col] = max(rightMax[col + 1] - 1, previousRow[col]);
+                    }
+
+                    // Calculate the current row's maximum points
+                    for (int col = 0; col < cols; ++col) {
+                        currentRow[col] =
+                            points[row + 1][col] + max(leftMax[col], rightMax[col]);
+                    }
+
+                    // Update previousRow for the next iteration
+                    previousRow = currentRow;
+                }
+
+                // Find the maximum value in the last processed row
+                long long maxPoints = 0;
+                for (int col = 0; col < cols; ++col) {
+                    maxPoints = max(maxPoints, previousRow[col]);
+                }
+
+                return maxPoints;
+            }
+        };
+        ```
+        </details>
+
+    - <details>
+        <summary>Tabulation(space optimization)</summary>
+
+        ```cpp
+        class Solution {
+        public:
+            long long maxPoints(vector<vector<int>>& points) {
+                int cols = points[0].size();
+                vector<long long> previousRow(cols);
+
+                for (auto& row : points) {
+                    // runningMax holds the maximum value generated in the previous
+                    // iteration of each loop
+                    long long runningMax = 0;
+
+                    // Left to right pass
+                    for (int col = 0; col < cols; ++col) {
+                        runningMax = max(runningMax - 1, previousRow[col]);
+                        previousRow[col] = runningMax;
+                    }
+
+                    runningMax = 0;
+                    // Right to left pass
+                    for (int col = cols - 1; col >= 0; --col) {
+                        runningMax = max(runningMax - 1, previousRow[col]);
+                        previousRow[col] = max(previousRow[col], runningMax) + row[col];
+                    }
+                }
+
+                // Find maximum points in the last row
+                long long maxPoints = 0;
+                for (int col = 0; col < cols; ++col) {
+                    maxPoints = max(maxPoints, previousRow[col]);
+                }
+
+                return maxPoints;
+            }
+        };
+        ```
+    </details>
+
+</details>
+
+- <details>
+    <summary><a href="https://leetcode.com/problems/minimum-falling-path-sum/description/">931. Minimum Falling Path Sum</a></summary>
+    
+    - <details>
+        <summary>Tabulation</summary>
+
+        ```cpp
+        class Solution {
+        public:
+            int minFallingPathSum(vector<vector<int>>& matrix) {
+                int n = matrix.size();
+                vector<int>prev = matrix[0];
+                for(int i = 1; i < n; i++) {
+                    vector<int>curr(n);
+                    for(int j = 0; j < n; j++) {
+                        int cl, cr, t;
+                        cl = cr = t = INT_MAX;
+                        if(j > 0) {
+                            cl = prev[j - 1];
+                        }
+                        if(j < n - 1) {
+                            cr = prev[j + 1];
+                        }
+                        t = prev[j];
+                        curr[j] = min(cl, min(cr, t)) + matrix[i][j];
+                    }
+                    prev = curr;
+                }
+                int ans = INT_MAX;
+                for(auto it: prev) {
+                    ans = min(ans, it);
+                }
+                return ans;
+            }
+        };
+        ```
+        </details>
+
+</details>
+
+- <details>
+    <summary><a href="https://leetcode.com/problems/minimum-path-sum/description/">64. Minimum Path Sum</a></summary>
+    
+    - <details>
+        <summary>Brute force</summary>
+
+        ```cpp
+        class Solution {
+        private:
+            int help(int ans, int x, int y, int m, int n, vector<vector<int>>& grid) {
+                if (x == m - 1 && y == n - 1) {
+                    return ans + grid[x][y];
+                }
+                int s = INT_MAX, ne = INT_MAX;
+                if (x + 1 < m) {
+                    s = help(ans + grid[x][y], x + 1, y, m, n, grid);
+                }
+                if (y + 1 < n) {
+                    ne = help(ans + grid[x][y], x, y + 1, m, n, grid);
+                }
+                return s == INT_MAX && ne == INT_MAX ? 0 : min(s, ne);
+            }
+        public:
+            int minPathSum(vector<vector<int>>& grid) {
+                int ans = 0;
+                int m = grid.size();
+                int n = grid[0].size();
+                return help(0, 0, 0, m, n, grid);
+            }
+        };
+        ```
+        </details>
+
+    - <details>
+        <summary>Tabulation</summary>
+
+        ```cpp
+        class Solution {
+        public:
+            int minPathSum(vector<vector<int>>& grid) {
+                int m = grid.size();
+                int n = grid[0].size();
+                vector<vector<int>>dp(m, vector<int>(n, INT_MAX));
+                dp[0][0] = grid[0][0];
+                for(int i = 0; i < m; i++) {
+                    for(int j = 0; j < n; j++) {
+                        if (i - 1 >= 0) {
+                            dp[i][j] = min(dp[i][j], dp[i - 1][j] + grid[i][j]);
+                        }
+                        if (j - 1 >= 0) {
+                            dp[i][j] = min(dp[i][j], dp[i][j- 1] + grid[i][j]);
+                        }
+                    }
+                }
+                return dp[m - 1][n - 1];
+            }
+        };
+        ```
+        </details>
+
+</details>
+
+- <details>
+    <summary><a href="https://leetcode.com/problems/minimize-the-difference-between-target-and-chosen-elements/">1981. Minimize the Difference Between Target and Chosen Elements</a></summary>
+    
+    - <details>
+        <summary>Brute force</summary>
+
+        ```cpp
+        class Solution {
+        int ans = INT_MAX;
+        private:
+            void help(int curr, int i, vector<vector<int>>& mat, int target) {
+                if(i == mat.size()) {
+                    ans = min(ans, abs(curr - target));
+                    return;
+                }
+                for(int j = 0; j < mat[i].size(); j++) {
+                    help(curr + mat[i][j], i + 1, mat, target);
+                }
+            }
+        public:
+            int minimizeTheDifference(vector<vector<int>>& mat, int target) {
+                int m = mat.size();
+                int n = mat[0].size();
+                help(0, 0, mat, target);
+                return ans;
+            }
+        };
+        ```
+        </details>
+
+    - <details>
+        <summary>Tabulation</summary>
+
+        ```cpp
+        class Solution {
+        public:
+            int minPathSum(vector<vector<int>>& grid) {
+                int m = grid.size();
+                int n = grid[0].size();
+                vector<vector<int>>dp(m, vector<int>(n, INT_MAX));
+                dp[0][0] = grid[0][0];
+                for(int i = 0; i < m; i++) {
+                    for(int j = 0; j < n; j++) {
+                        if (i - 1 >= 0) {
+                            dp[i][j] = min(dp[i][j], dp[i - 1][j] + grid[i][j]);
+                        }
+                        if (j - 1 >= 0) {
+                            dp[i][j] = min(dp[i][j], dp[i][j- 1] + grid[i][j]);
+                        }
+                    }
+                }
+                return dp[m - 1][n - 1];
+            }
+        };
+        ```
+        </details>
+
+</details>
+
+- <details>
+    <summary><a href="https://leetcode.com/problems/generate-parentheses">22. Genenrate Parentheses</a></summary>
+    
+    - <details>
+        <summary>Brute force</summary>
+
+        ```cpp
+            class Solution {
+            private:
+                void help(vector<string>& ans, int l, int r, int n, string curr) {
+                    if(l + r == 2 * n) {
+                        ans.push_back(curr);
+                        return;
+                    }
+                    if (l < n) {
+                        help(ans, l + 1, r, n, curr + "(");
+                    }
+                    if (r < l) {
+                        help(ans, l, r + 1, n, curr + ")");
+                    }
+                }
+            public:
+                vector<string> generateParenthesis(int n) {
+                    vector<string>ans;
+                    help(ans, 0, 0, n, "");
+                    return ans;
+                }
+            };
+        ```
+        </details>
+
+</details>
