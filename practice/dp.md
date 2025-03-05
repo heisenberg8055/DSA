@@ -972,3 +972,82 @@ Dynamic Programming is a commonly used algorithmic technique used to optimize re
         </details>
 
 </details>
+
+- <details>
+    <summary><a href="https://leetcode.com/problems/maximum-compatibility-score-sum/">1947. Maximum Compatibility Score Sum</a></summary>
+    
+    - <details>
+        <summary>Backtrack</summary>
+
+        ```cpp
+            class Solution {
+            int maxi = 0;
+            private:
+                void help(vector<bool>& vis, vector<vector<int>>& s, vector<vector<int>>& m, int pos, int score) {
+                    if (pos >= s.size()) {
+                        maxi = max(maxi, score);
+                        return;
+                    }
+                    for(int i = 0; i < m.size(); i++) {
+                        if (!vis[i]) {
+                            vis[i] = true;
+                            help(vis, s, m, pos + 1, score + scor(s[pos], m[i]));
+                            vis[i] = false;
+                        }
+                    }
+                }
+                int scor(vector<int>& a,vector<int>& b) {
+                    int ans = 0;
+                    for(int i = 0; i < a.size(); i++) {
+                        if (a[i] == b[i]) {
+                            ans++;
+                        }
+                    }
+                    return ans;
+                }
+            public:
+                int maxCompatibilitySum(vector<vector<int>>& students, vector<vector<int>>& mentors) {
+                    int m = students.size();
+                    int n = students[0].size();
+                    vector<bool>vis(m, false);
+                    help(vis, students, mentors, 0, 0);
+                    return maxi;
+                }
+            };
+        ```
+        
+        </details>
+
+    - <details>
+        <summary>Brute Force(Permutation)</summary>
+
+        ```cpp
+            class Solution {
+            public:
+                int maxCompatibilitySum(vector<vector<int>>& students, vector<vector<int>>& mentors) {
+                    int ans = 0;
+                    int m = students.size();
+                    int n = students[0].size();
+                    vector<int>pos;
+                    for(int i = 0; i < m; i++) {
+                        pos.push_back(i);
+                    }
+                    do {
+                        int cnt = 0;
+                        for(int i = 0; i < m; i++) {
+                            for(int j = 0; j < n; j++) {
+                                if (students[pos[i]][j] == mentors[i][j]) {
+                                    cnt++;
+                                }
+                            }
+                        }
+                        ans = max(ans, cnt);
+                    }while (next_permutation(pos.begin(), pos.end()));
+                    return ans;
+                }
+            };
+        ```
+        
+        </details>
+
+</details>
