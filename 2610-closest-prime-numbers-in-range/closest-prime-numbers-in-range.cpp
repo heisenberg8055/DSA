@@ -2,7 +2,7 @@ class Solution {
 private:
     void sieveOfEratosthenes(vector<bool>& p) {
         int n = p.size();
-        for (int i = 2; i < sqrt(n); i++) {
+        for (int i = 2; i <= sqrt(n); i++) {
             if (p[i]) {
                 for (int j = i * i; j < n; j += i) {
                     p[j] = false;
