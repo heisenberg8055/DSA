@@ -3,3 +3,4 @@
 |Array |String|
 |:------|:----|
 |Kadane|KMP   |
+|Sieve |      |
