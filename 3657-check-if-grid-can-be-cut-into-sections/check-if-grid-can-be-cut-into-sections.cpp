@@ -2,6 +2,7 @@ class Solution {
 private:
     vector<vector<int>> help(vector<vector<int>>& reff) {
         vector<vector<int>> ans;
+        sort(reff.begin(), reff.end());
         int n = reff.size();
         ans.push_back(reff[0]);
         for(int i = 1; i < n; i++) {
@@ -22,34 +23,6 @@ public:
             x.push_back({rectangles[i][0], rectangles[i][2]});
             y.push_back({rectangles[i][1], rectangles[i][3]});
         }
-        sort(x.begin(), x.end());
-        x = help(x);
-        int xs = x.size(), cnt = 1;
-        for(int i = 1; i < xs; i++) {
-            if(x[i - 1][1] <= x[i][0]) {
-                cnt++;
-            }
-            else {
-                cnt = 1;
-            }
-            if(cnt == 3) {
-                return true;
-            }
-        }
-        sort(y.begin(), y.end());
-        y = help(y);
-        int ys = y.size(), cnty = 1;
-        for(int i = 1; i < ys; i++) {
-            if(y[i - 1][1] <= y[i][0]) {
-                cnty++;
-            }
-            else {
-                cnty = 1;
-            }
-            if(cnty == 3) {
-                return true;
-            }
-        }
-        return false;
+        return help(x).size() > 2 ? true : help(y).size() > 2 ? true : false;
     }
 };
