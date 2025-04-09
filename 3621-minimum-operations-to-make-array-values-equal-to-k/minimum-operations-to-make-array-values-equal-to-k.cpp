@@ -1,12 +1,11 @@
 class Solution {
 public:
     int minOperations(vector<int>& nums, int k) {
-        map<int, int>mp;
+        set<int>s;
         for(auto &it: nums) {
-            mp[it]++;
+            s.insert(it);
         }
-        auto it = mp.begin();
-        cout << it -> first;
-        return it -> first > k ? mp.size() : it -> first == k ? mp.size() - 1 : -1;
+        auto it = s.begin();
+        return  *it > k ? s.size() : *it == k ? s.size() - 1 : -1;
     }
 };
