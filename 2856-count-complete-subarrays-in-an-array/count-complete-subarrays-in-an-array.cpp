@@ -12,7 +12,8 @@ public:
             for(int j = i; j < n; j++) {
                 s.insert(nums[j]);
                 if(s.size() == mp.size()) {
-                    ans++;
+                    ans += n - j;
+                    break;
                 }
             }
         }
