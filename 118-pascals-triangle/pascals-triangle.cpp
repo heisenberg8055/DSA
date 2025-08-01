@@ -7,7 +7,7 @@ public:
             if (i != 1 && i != 2) {
                 for(int j = 1; j < i - 1; j++)
                 {
-                    temp[j] = ans.back()[j - 1] + ans.back()[j];
+                    temp[j] = ans[i - 2][j - 1] + ans[i - 2][j];
                 }
             }
             ans.push_back(temp);
