@@ -1,16 +1,15 @@
 class Solution {
 public:
     vector<int> minBitwiseArray(vector<int>& nums) {
-        int n = nums.size();
-        vector<int>ans(n, -1);
-        for(int i = 0; i < n; i++) {
-            for(int j = 1; j <= 1000; j++) {
-                if((j | j + 1) == nums[i]) {
-                    ans[i] = j;
-                    break;
-                }
+        vector<int>res;
+        for(int n: nums) {
+            if(n & 1) {
+                int z = ((n + 1) & ~n) >> 1;
+                res.push_back(n & ~z);
+            } else {
+                res.push_back(-1);
             }
         }
-        return ans;
+        return res;
     }
 };
