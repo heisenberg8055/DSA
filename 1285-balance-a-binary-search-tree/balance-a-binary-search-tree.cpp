@@ -20,7 +20,7 @@ private:
         trav(root -> right, arr);
     }
     TreeNode* construct(vector<int>& arr, int l, int r, int n) {
-        printf("%d %d\n", l, r);
+        // printf("%d %d\n", l, r);
         int mid = l + ((r - l) / 2);
         if(l == r) {
             return new TreeNode(arr[mid]);
